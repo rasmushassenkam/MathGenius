@@ -17,7 +17,6 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
     const bootstrapAsync = () => {
         getItem("problemIndex").then((index: number) => {
             if (index) {
-                console.log(index);
                 navigation.navigate(index ? "Question" : "Home", {
                     index
                 });
