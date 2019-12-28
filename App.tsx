@@ -1,19 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { HomeScreen } from "./app/screens/HomeScreen/HomeScreen";
+import { QuestionScreen } from "./app/screens/QuestionScreen/QuestionScreen";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+	return (
+		<AppContainer />
+	);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const AppContainer = createAppContainer(
+	createSwitchNavigator(
+		{
+			Home: HomeScreen,
+			Question: QuestionScreen
+		}
+	)
+);
