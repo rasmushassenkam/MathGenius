@@ -5,21 +5,24 @@ import { clearStorage, getItem, storeItem } from "../../stores/AsyncStorage";
 import { Problem } from "../../interfaces/Problem";
 import { Problems } from "../../Problems";
 import { TextInput } from "react-native-gesture-handler";
+import { NavigationScreenProp } from "react-navigation";
 
-export const QuestionScreen: React.FC = () => {
-    const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[0]);
+interface IProps {
+    navigation: NavigationScreenProp<any, any>
+}
+
+export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
+    const index = navigation.getParam("index");
     const [currentAnswer, setCurrentAnswer] = useState<string>("");
     const [tries, setTries] = useState<number>(3);
+    const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
 
     useEffect(() => {
-        getCurrentProblem();
+        initialize();
     }, []);
 
-    const getCurrentProblem = async () => {
-        const index = await getItem("problemIndex");
-        if (index) {
-            setCurrentProblem(Problems[index]);
-        } else {
+    const initialize = () => {
+        if (index === undefined) {
             setCurrentProblem(Problems[0]);
         }
     }
@@ -46,7 +49,9 @@ export const QuestionScreen: React.FC = () => {
             <Text>Tries:</Text>
             <Text>{tries}</Text>
             <Text>Problem:</Text>
-            <Text>{currentProblem.problem}</Text>
+            {currentProblem &&
+                <Text>{currentProblem.problem}</Text>
+            }
             <TextInput
                 style={{ width: 200, height: 40, borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={text => setCurrentAnswer(text)}
