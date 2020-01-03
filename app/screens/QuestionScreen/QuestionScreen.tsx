@@ -11,6 +11,7 @@ import { COLORS } from "../../styles/Colors";
 import { scale, moderateScale, verticalScale } from "../../utils/Scaling";
 import { NumberGrid } from "./components/NumberGrid";
 import { Wrong } from "./components/Wrong";
+import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -97,6 +98,11 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }
 
+    const addTries = async (tries: number) => {
+        await storeItem("tries", tries);
+        setTries(tries);
+    }
+
     return (
         <View style={globalStyles.container}>
             {
@@ -114,6 +120,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                 </>
                             }
                             <Text style={styles.answer}>{currentAnswer}</Text>
+                            <View style={styles.hr} />
                             <NumberGrid
                                 onPressNumber={(value: string) => setAnswer(value)}
                                 onPressClear={() => setCurrentAnswer("")}
@@ -125,6 +132,10 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                         </>
             }
             <DevButtonFlushStorage />
+            <GetMoreTriesModal
+                visible={tries === 0}
+                onPressMoreTries={() => addTries(3)}
+            />
         </View>
     );
 }
@@ -151,9 +162,10 @@ const styles = StyleSheet.create({
     },
     answer: {
         marginTop: verticalScale(10),
-        marginBottom: verticalScale(20),
+        marginBottom: verticalScale(10),
         color: COLORS.textColor,
-        fontSize: moderateScale(30)
+        fontSize: moderateScale(30),
+        letterSpacing: scale(2)
     },
     checkAnswer: {
         color: COLORS.textColor,
@@ -165,5 +177,11 @@ const styles = StyleSheet.create({
         borderColor: COLORS.textColor,
         padding: scale(5),
         borderRadius: 5
+    },
+    hr: {
+        borderBottomColor: COLORS.textColor,
+        borderBottomWidth: 1,
+        marginBottom: 10,
+        width: scale(240)
     }
 });
