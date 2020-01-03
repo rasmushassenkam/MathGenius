@@ -18,11 +18,11 @@ interface IProps {
 
 export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const index = navigation.getParam("index");
-    // const storedTries = navigation.getParam("tries");
+    const storedTries = navigation.getParam("tries");
     const [currentAnswer, setCurrentAnswer] = useState<string>("");
     const [correct, setCorrect] = useState<boolean>(false);
     const [wrong, setWrong] = useState<boolean>(false);
-    const [tries, setTries] = useState<number>(3);
+    const [tries, setTries] = useState<number>(storedTries);
     const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
 
     useEffect(() => {
@@ -62,7 +62,8 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
             await storeItem("problemIndex", currentProblem.nextIndex);
             setCurrentProblem(Problems[currentProblem.nextIndex]);
         } else {
-            // setTries(tries - 1);
+            await storeItem("tries", tries - 1);
+            setTries(tries - 1);
             setWrong(true);
         }
     }
