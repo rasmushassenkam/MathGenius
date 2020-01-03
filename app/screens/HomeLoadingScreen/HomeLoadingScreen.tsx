@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, ActivityIndicator, StatusBar, } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { getItem } from "../../stores/AsyncStorage";
+import { getItem, storeItem } from "../../stores/AsyncStorage";
 import { globalStyles } from "../../styles/Styles";
 
 interface IProps {
@@ -17,11 +17,16 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
     const bootstrapAsync = () => {
         getItem("problemIndex").then((index: number) => {
             if (index) {
-                navigation.navigate(index ? "Question" : "Home", {
-                    index
-                });
+                getItem("tries").then((tries: number) => {
+                    navigation.navigate(index ? "Question" : "Home", {
+                        index,
+                        tries
+                    });
+                })
             } else {
-                navigation.navigate("Home");
+                storeItem("tries", 3).then(() => {
+                    navigation.navigate("Home");
+                });
             }
         }).catch((err) => {
             console.log(err);

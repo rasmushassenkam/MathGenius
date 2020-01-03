@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { globalStyles } from "../../styles/Styles";
-import { storeItem } from "../../stores/AsyncStorage";
+import { storeItem, getItem } from "../../stores/AsyncStorage";
 import { Problem } from "../../interfaces/Problem";
 import { Problems } from "../../Problems";
 import { NavigationScreenProp } from "react-navigation";
 import { Correct } from "./components/Correct";
 import { DevButtonFlushStorage } from "../../components/DevButtonFlushStorage/DevButtonFlushStorage";
 import { COLORS } from "../../styles/Colors";
-import { scale, moderateScale } from "../../utils/Scaling";
+import { scale, moderateScale, verticalScale } from "../../utils/Scaling";
 import { NumberGrid } from "./components/NumberGrid";
+import { Wrong } from "./components/Wrong";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -17,8 +18,10 @@ interface IProps {
 
 export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const index = navigation.getParam("index");
+    // const storedTries = navigation.getParam("tries");
     const [currentAnswer, setCurrentAnswer] = useState<string>("");
     const [correct, setCorrect] = useState<boolean>(false);
+    const [wrong, setWrong] = useState<boolean>(false);
     const [tries, setTries] = useState<number>(3);
     const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
 
@@ -35,9 +38,21 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }, [correct]);
 
-    const initialize = () => {
+    useEffect(() => {
+        setCurrentAnswer("");
+        if (wrong) {
+            setTimeout(() => {
+                setWrong(false);
+            }, 10);
+        }
+    }, [wrong])
+
+    const initialize = async () => {
         if (index === undefined) {
-            setCurrentProblem(Problems[0]);
+            getItem("tries").then((value: number) => {
+                setTries(value);
+                setCurrentProblem(Problems[0]);
+            })
         }
     }
 
@@ -47,7 +62,8 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
             await storeItem("problemIndex", currentProblem.nextIndex);
             setCurrentProblem(Problems[currentProblem.nextIndex]);
         } else {
-            setTries(tries - 1);
+            // setTries(tries - 1);
+            setWrong(true);
         }
     }
 
@@ -72,24 +88,40 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }
 
+    const setAnswer = (value: string): void => {
+        if (currentAnswer.length <= 12) {
+            setCurrentAnswer(currentAnswer + value);
+        } else {
+            return;
+        }
+    }
+
     return (
         <View style={globalStyles.container}>
             {
                 correct ? <Correct
                     text={correctTextGenerator()}
                 /> :
-                    <>
-                        <Text style={styles.tries}>Tries: {tries}</Text>
-                        {currentProblem &&
-                            <Text style={styles.problem}>{currentProblem.problem}</Text>
-                        }
-                        <Text>{currentAnswer}</Text>
-                        <NumberGrid
-                            onPressNumber={(value: string) => setCurrentAnswer(currentAnswer + value)}
-                            onPressOkay={answerProblem}
-                            onPressPlusMinus={negateAnswer}
-                        />
-                    </>
+                    wrong ? <Wrong />
+                        :
+                        <>
+                            <Text style={styles.tries}>Tries: {tries}</Text>
+                            {currentProblem &&
+                                <>
+                                    <Text style={styles.problem}>{currentProblem.problem}</Text>
+                                    <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
+                                </>
+                            }
+                            <Text style={styles.answer}>{currentAnswer}</Text>
+                            <NumberGrid
+                                onPressNumber={(value: string) => setAnswer(value)}
+                                onPressClear={() => setCurrentAnswer("")}
+                                onPressPlusMinus={negateAnswer}
+                            />
+                            <TouchableOpacity onPress={answerProblem}>
+                                <Text style={styles.checkAnswer}>Check Answer</Text>
+                            </TouchableOpacity>
+                        </>
             }
             <DevButtonFlushStorage />
         </View>
@@ -97,14 +129,40 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    level: {
+        position: "absolute",
+        fontSize: moderateScale(20),
+        top: scale(20),
+        left: scale(10),
+        color: COLORS.textColor
+    },
     tries: {
         position: "absolute",
+        fontSize: moderateScale(20),
         top: scale(20),
         right: scale(10),
         color: COLORS.textColor
     },
     problem: {
         color: COLORS.textColor,
-        fontSize: moderateScale(36)
+        fontSize: moderateScale(36),
+        marginBottom: verticalScale(10)
+    },
+    answer: {
+        marginTop: verticalScale(10),
+        marginBottom: verticalScale(20),
+        color: COLORS.textColor,
+        fontSize: moderateScale(30)
+    },
+    checkAnswer: {
+        color: COLORS.textColor,
+        fontSize: moderateScale(24),
+        textTransform: "uppercase",
+        letterSpacing: moderateScale(4),
+        marginTop: verticalScale(5),
+        borderWidth: 1,
+        borderColor: COLORS.textColor,
+        padding: scale(5),
+        borderRadius: 5
     }
 });
