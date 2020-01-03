@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, ActivityIndicator, StatusBar, } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { getItem } from "../../stores/AsyncStorage";
-import { styles } from "../../Styles";
+import { globalStyles } from "../../styles/Styles";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -30,7 +30,7 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             <ActivityIndicator />
             <StatusBar barStyle="default" />
         </View>

@@ -1,10 +1,14 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export const Correct: React.FC = () => {
+interface IProps {
+    text: string;
+}
+
+export const Correct: React.FC<IProps> = ({ text }) => {
     return (
         <View>
-            <Text>Correct!</Text>
+            <Text>{text}</Text>
         </View>
     )
 }

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
-import { styles } from "../../Styles";
-import { clearStorage, storeItem } from "../../stores/AsyncStorage";
+import { View, Text, StyleSheet } from "react-native";
+import { globalStyles } from "../../styles/Styles";
+import { storeItem } from "../../stores/AsyncStorage";
 import { Problem } from "../../interfaces/Problem";
 import { Problems } from "../../Problems";
-import { TextInput } from "react-native-gesture-handler";
 import { NavigationScreenProp } from "react-navigation";
 import { Correct } from "./components/Correct";
+import { DevButtonFlushStorage } from "../../components/DevButtonFlushStorage/DevButtonFlushStorage";
+import { COLORS } from "../../styles/Colors";
+import { scale, moderateScale } from "../../utils/Scaling";
+import { NumberGrid } from "./components/NumberGrid";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -24,6 +27,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
+        setCurrentAnswer("");
         if (correct) {
             setTimeout(() => {
                 setCorrect(false);
@@ -55,26 +59,52 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }
 
+    const correctTextGenerator = (): string => {
+        return "Correct!";
+    }
+
+    const negateAnswer = (): void => {
+        if (currentAnswer[0] === "-") {
+            const subString = currentAnswer.substr(1);
+            setCurrentAnswer(subString);
+        } else {
+            setCurrentAnswer("-" + currentAnswer);
+        }
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             {
-                correct ? <Correct /> :
+                correct ? <Correct
+                    text={correctTextGenerator()}
+                /> :
                     <>
-                        <Text>Tries:</Text>
-                        <Text>{tries}</Text>
-                        <Text>Problem:</Text>
+                        <Text style={styles.tries}>Tries: {tries}</Text>
                         {currentProblem &&
-                            <Text>{currentProblem.problem}</Text>
+                            <Text style={styles.problem}>{currentProblem.problem}</Text>
                         }
-                        <TextInput
-                            style={{ width: 200, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                            onChangeText={text => setCurrentAnswer(text)}
-                            value={currentAnswer}
+                        <Text>{currentAnswer}</Text>
+                        <NumberGrid
+                            onPressNumber={(value: string) => setCurrentAnswer(currentAnswer + value)}
+                            onPressOkay={answerProblem}
+                            onPressPlusMinus={negateAnswer}
                         />
-                        <Button title="Answer" onPress={answerProblem} />
-                        <Button title="Flush Storage DEV" onPress={() => clearStorage()} />
                     </>
             }
+            <DevButtonFlushStorage />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    tries: {
+        position: "absolute",
+        top: scale(20),
+        right: scale(10),
+        color: COLORS.textColor
+    },
+    problem: {
+        color: COLORS.textColor,
+        fontSize: moderateScale(36)
+    }
+});
