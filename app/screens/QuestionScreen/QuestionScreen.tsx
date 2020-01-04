@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/Styles";
@@ -11,10 +12,10 @@ import { DevButtonFlushStorage } from "../../components/DevButtonFlushStorage/De
 import { COLORS } from "../../styles/Colors";
 import { NumberGrid } from "./components/NumberGrid";
 import { Wrong } from "./components/Wrong";
-import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
 import { styles } from "./QuestionScreenStyles";
 import { scale, moderateScale } from "../../utils/Scaling";
-import { HintModal } from "./components/HintModal";
+import { Constants } from "../../Constants";
+import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -29,8 +30,15 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const [wrong, setWrong] = useState<boolean>(false);
     const [tries, setTries] = useState<number>(storedTries);
     const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
-    const [hintsVisible, setHintVisible] = useState<boolean>(false);
     const [hintIndex, setHintIndex] = useState<number>(storedHintIndex);
+    const [disabled, setDisabled] = useState<boolean>(false);
+    const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
+
+    AdMobInterstitial.setAdUnitID(Constants.ANDROIDVIDEOADD);
+
+    useEffect(() => {
+        console.log("hintIndex", hintIndex);
+    }, [hintIndex])
 
     useEffect(() => {
         initialize();
@@ -40,6 +48,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         setCurrentAnswer("");
         if (correct) {
             zeroHintIndex();
+            setIsHintEnabled(false);
             setTimeout(() => {
                 setCorrect(false);
             }, 750);
@@ -114,8 +123,40 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     }
 
     const addTries = async (tries: number) => {
-        await storeItem("tries", tries);
-        setTries(tries);
+        try {
+            setDisabled(true);
+            await AdMobInterstitial.requestAdAsync();
+            await AdMobInterstitial.showAdAsync()
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setDisabled(false);
+            await storeItem("tries", tries);
+            setTries(tries);
+        }
+    }
+
+    const getHint = async () => {
+        try {
+            setDisabled(true);
+            await AdMobInterstitial.requestAdAsync();
+            await AdMobInterstitial.showAdAsync()
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsHintEnabled(true);
+            setDisabled(false);
+            await storeItem("hintIndex", hintIndex + 1);
+            setHintIndex(hintIndex + 1);
+        }
+    }
+
+    const handleGetHint = () => {
+        if (disabled) {
+            return;
+        } else {
+            getHint();
+        }
     }
 
     return (
@@ -132,14 +173,14 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                     <SimpleLineIcons name="energy" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.tries}>{tries}</Text>
                                 </View>
                                 <View style={{ marginLeft: scale(3) }}>
-                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={() => setHintVisible(true)}>
+                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={handleGetHint}>
                                         <FontAwesome name="lightbulb-o" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.hints}>Get a hint</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                             {currentProblem &&
                                 <>
-                                    <Text style={styles.problem}>{currentProblem.problem}</Text>
+                                    <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
                                     <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
                                 </>
                             }
@@ -159,13 +200,11 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
             <GetMoreTriesModal
                 visible={tries === 0}
                 onPressMoreTries={() => addTries(3)}
+                disabled={disabled}
             />
-            <HintModal
-                visible={hintsVisible}
-                onDissmiss={() => setHintVisible(false)}
-                hintIndex={hintIndex}
-                problemIndex={currentProblem && currentProblem.currentIndex}
-            />
+            <View style={globalStyles.bottomBannerAdd}>
+                <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={"ca-app-pub-3940256099942544/6300978111"} />
+            </View>
         </View>
     );
 }

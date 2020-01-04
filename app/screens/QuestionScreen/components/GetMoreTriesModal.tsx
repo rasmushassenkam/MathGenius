@@ -7,16 +7,26 @@ import { COLORS } from "../../../styles/Colors";
 interface IProps {
     visible: boolean;
     onPressMoreTries: () => void;
+    disabled: boolean;
 }
 
-export const GetMoreTriesModal: React.FC<IProps> = ({ visible, onPressMoreTries }) => {
+export const GetMoreTriesModal: React.FC<IProps> = ({ visible, onPressMoreTries, disabled }) => {
+
+    const handleOnPress = (): void => {
+        if (disabled) {
+            return;
+        } else {
+            onPressMoreTries();
+        }
+    }
+
     return (
         <Modal
             visible={visible}
             animationType="slide"
         >
             <View style={globalStyles.container}>
-                <TouchableOpacity style={styles.getMore} onPress={onPressMoreTries}>
+                <TouchableOpacity style={styles.getMore} onPress={handleOnPress}>
                     <Text style={styles.headline}>Out of tries</Text>
                     <Text style={styles.press}>Press</Text>
                     <Text style={styles.subTitle}>to get more</Text>

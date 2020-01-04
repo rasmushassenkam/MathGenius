@@ -7,5 +7,9 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: COLORS.backgroundBlue,
         alignItems: "center",
         justifyContent: "center"
+    },
+    bottomBannerAdd: {
+        position: "absolute",
+        bottom: 0
     }
 });

@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         backgroundColor: "red",
-        padding: 5
+        padding: 5,
+        zIndex: 1
     },
     testButtonText: {
         color: "white"
