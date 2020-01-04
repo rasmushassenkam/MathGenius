@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
-import { View, Text, TouchableOpacity, Platform, StyleSheet, ActionSheetIOS, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Platform, StyleSheet, ActivityIndicator } from "react-native";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/Styles";
 import { storeItem, getItem } from "../../stores/AsyncStorage";
@@ -186,7 +186,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                             size={moderateScale(18)} />
                                         {
                                             disabled ?
-                                                <ActivityIndicator />
+                                                <ActivityIndicator color={COLORS.textColor} />
                                                 :
                                                 <Text
                                                     style={condtionalStyles.hints}>

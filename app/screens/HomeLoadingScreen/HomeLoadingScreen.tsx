@@ -3,6 +3,7 @@ import { View, ActivityIndicator, StatusBar, } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { getItem, storeItem } from "../../stores/AsyncStorage";
 import { globalStyles } from "../../styles/Styles";
+import { COLORS } from "../../styles/Colors";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -41,7 +42,7 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
 
     return (
         <View style={globalStyles.container}>
-            <ActivityIndicator />
+            <ActivityIndicator color={COLORS.textColor} size="large" />
             <StatusBar barStyle="default" />
         </View>
     )
