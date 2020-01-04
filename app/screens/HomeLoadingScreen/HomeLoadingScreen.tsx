@@ -28,7 +28,7 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
                 });
             } else {
                 storeItem("tries", 3).then(() => {
-                    storeItem("hintIndex", 0).then(() => {
+                    storeItem("hintIndex", -1).then(() => {
                         navigation.navigate("Home");
                     });
                 });

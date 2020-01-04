@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform, StyleSheet, ActionSheetIOS, ActivityIndicator } from "react-native";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/Styles";
 import { storeItem, getItem } from "../../stores/AsyncStorage";
@@ -12,8 +12,7 @@ import { DevButtonFlushStorage } from "../../components/DevButtonFlushStorage/De
 import { COLORS } from "../../styles/Colors";
 import { NumberGrid } from "./components/NumberGrid";
 import { Wrong } from "./components/Wrong";
-import { styles } from "./QuestionScreenStyles";
-import { scale, moderateScale } from "../../utils/Scaling";
+import { scale, moderateScale, verticalScale } from "../../utils/Scaling";
 import { Constants } from "../../Constants";
 import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
 
@@ -34,11 +33,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const [disabled, setDisabled] = useState<boolean>(false);
     const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
 
-    AdMobInterstitial.setAdUnitID(Constants.ANDROIDVIDEOADD);
-
-    useEffect(() => {
-        console.log("hintIndex", hintIndex);
-    }, [hintIndex])
+    AdMobInterstitial.setAdUnitID(Platform.OS === "ios" ? Constants.IOSVIDEOADD : Constants.ANDROIDVIDEOADD);
 
     useEffect(() => {
         initialize();
@@ -77,8 +72,8 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     }
 
     const zeroHintIndex = async () => {
-        await storeItem("hintIndex", 0);
-        setHintIndex(0);
+        await storeItem("hintIndex", -1);
+        setHintIndex(-1);
     }
 
     const answerProblem = async () => {
@@ -151,13 +146,23 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }
 
-    const handleGetHint = () => {
-        if (disabled) {
-            return;
+    const disableHints = (): boolean => {
+        if (hintIndex === (currentProblem.hints.length - 1)) {
+            return true;
         } else {
-            getHint();
+            return false;
         }
     }
+
+    const condtionalStyles = StyleSheet.create({
+        hints: {
+            textTransform: "uppercase",
+            fontSize: moderateScale(17),
+            marginLeft: scale(6),
+            bottom: scale(2),
+            color: disableHints() ? COLORS.disabledColor : COLORS.textColor
+        }
+    });
 
     return (
         <View style={globalStyles.container}>
@@ -167,25 +172,38 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                 /> :
                     wrong ? <Wrong />
                         :
+                        currentProblem &&
                         <>
                             <View style={styles.triesAndHints}>
                                 <View style={styles.triesAndHintsRow}>
                                     <SimpleLineIcons name="energy" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.tries}>{tries}</Text>
                                 </View>
                                 <View style={{ marginLeft: scale(3) }}>
-                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={handleGetHint}>
-                                        <FontAwesome name="lightbulb-o" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.hints}>Get a hint</Text>
+                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={getHint} disabled={disableHints() || disabled}>
+                                        <FontAwesome
+                                            name="lightbulb-o"
+                                            color={disableHints() ? COLORS.disabledColor : COLORS.textColor}
+                                            size={moderateScale(18)} />
+                                        {
+                                            disabled ?
+                                                <ActivityIndicator />
+                                                :
+                                                <Text
+                                                    style={condtionalStyles.hints}>
+                                                    Get a hint
+                                                </Text>
+                                        }
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            {currentProblem &&
-                                <>
-                                    <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
-                                    <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
-                                </>
-                            }
+
+                            <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
+
+                            <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
                             <Text style={styles.answer}>{currentAnswer}</Text>
+
                             <View style={styles.hr} />
+
                             <NumberGrid
                                 onPressNumber={(value: string) => setAnswer(value)}
                                 onPressClear={() => setCurrentAnswer("")}
@@ -203,8 +221,62 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                 disabled={disabled}
             />
             <View style={globalStyles.bottomBannerAdd}>
-                <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={"ca-app-pub-3940256099942544/6300978111"} />
+                <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={Platform.OS === "ios" ? Constants.IOSBANNERADD : Constants.ANDROIDBANNERADD} />
             </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    level: {
+        position: "absolute",
+        fontSize: moderateScale(20),
+        top: scale(20),
+        right: scale(10),
+        color: COLORS.textColor
+    },
+    problem: {
+        color: COLORS.textColor,
+        fontSize: moderateScale(36),
+        marginBottom: verticalScale(10)
+    },
+    answer: {
+        marginTop: verticalScale(10),
+        marginBottom: verticalScale(10),
+        color: COLORS.textColor,
+        fontSize: moderateScale(30),
+        letterSpacing: scale(2)
+    },
+    checkAnswer: {
+        color: COLORS.textColor,
+        fontSize: moderateScale(24),
+        textTransform: "uppercase",
+        letterSpacing: moderateScale(4),
+        marginTop: verticalScale(5),
+        borderWidth: 1,
+        borderColor: COLORS.textColor,
+        padding: scale(5),
+        borderRadius: 5
+    },
+    hr: {
+        borderBottomColor: COLORS.textColor,
+        borderBottomWidth: 1,
+        marginBottom: 10,
+        width: scale(240)
+    },
+    triesAndHints: {
+        position: "absolute",
+        top: scale(22),
+        left: scale(10)
+    },
+    triesAndHintsRow: {
+        flexDirection: "row"
+    },
+    tries: {
+        textTransform: "uppercase",
+        fontSize: moderateScale(17),
+        color: COLORS.textColor,
+        bottom: scale(2),
+        marginLeft: scale(3)
+    }
+});
