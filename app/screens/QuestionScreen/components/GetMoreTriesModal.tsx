@@ -12,7 +12,6 @@ interface IProps {
 export const GetMoreTriesModal: React.FC<IProps> = ({ visible, onPressMoreTries }) => {
     return (
         <Modal
-            presentationStyle="formSheet"
             visible={visible}
             animationType="slide"
         >

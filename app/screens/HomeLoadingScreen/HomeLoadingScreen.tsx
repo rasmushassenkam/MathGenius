@@ -18,14 +18,19 @@ export const HomeLoadingScreen: React.FC<IProps> = ({ navigation }) => {
         getItem("problemIndex").then((index: number) => {
             if (index) {
                 getItem("tries").then((tries: number) => {
-                    navigation.navigate(index ? "Question" : "Home", {
-                        index,
-                        tries
+                    getItem("hintIndex").then((hintIndex: number) => {
+                        navigation.navigate(index ? "Question" : "Home", {
+                            index,
+                            tries,
+                            hintIndex
+                        });
                     });
-                })
+                });
             } else {
                 storeItem("tries", 3).then(() => {
-                    navigation.navigate("Home");
+                    storeItem("hintIndex", 0).then(() => {
+                        navigation.navigate("Home");
+                    });
                 });
             }
         }).catch((err) => {

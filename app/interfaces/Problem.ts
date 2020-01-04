@@ -3,4 +3,5 @@ export interface Problem {
     answer: string;
     currentIndex: number;
     nextIndex: number;
+    hints: Array<string>
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/Styles";
 import { storeItem, getItem } from "../../stores/AsyncStorage";
 import { Problem } from "../../interfaces/Problem";
@@ -8,10 +9,12 @@ import { NavigationScreenProp } from "react-navigation";
 import { Correct } from "./components/Correct";
 import { DevButtonFlushStorage } from "../../components/DevButtonFlushStorage/DevButtonFlushStorage";
 import { COLORS } from "../../styles/Colors";
-import { scale, moderateScale, verticalScale } from "../../utils/Scaling";
 import { NumberGrid } from "./components/NumberGrid";
 import { Wrong } from "./components/Wrong";
 import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
+import { styles } from "./QuestionScreenStyles";
+import { scale, moderateScale } from "../../utils/Scaling";
+import { HintModal } from "./components/HintModal";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -20,11 +23,14 @@ interface IProps {
 export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const index = navigation.getParam("index");
     const storedTries = navigation.getParam("tries");
+    const storedHintIndex = navigation.getParam("hintIndex");
     const [currentAnswer, setCurrentAnswer] = useState<string>("");
     const [correct, setCorrect] = useState<boolean>(false);
     const [wrong, setWrong] = useState<boolean>(false);
     const [tries, setTries] = useState<number>(storedTries);
     const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
+    const [hintsVisible, setHintVisible] = useState<boolean>(false);
+    const [hintIndex, setHintIndex] = useState<number>(storedHintIndex);
 
     useEffect(() => {
         initialize();
@@ -33,6 +39,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     useEffect(() => {
         setCurrentAnswer("");
         if (correct) {
+            zeroHintIndex();
             setTimeout(() => {
                 setCorrect(false);
             }, 750);
@@ -51,10 +58,18 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const initialize = async () => {
         if (index === undefined) {
             getItem("tries").then((value: number) => {
-                setTries(value);
-                setCurrentProblem(Problems[0]);
-            })
+                getItem("hintIndex").then((hintIndex: number) => {
+                    setTries(value);
+                    setHintIndex(hintIndex);
+                    setCurrentProblem(Problems[0]);
+                });
+            });
         }
+    }
+
+    const zeroHintIndex = async () => {
+        await storeItem("hintIndex", 0);
+        setHintIndex(0);
     }
 
     const answerProblem = async () => {
@@ -112,7 +127,16 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                     wrong ? <Wrong />
                         :
                         <>
-                            <Text style={styles.tries}>Tries: {tries}</Text>
+                            <View style={styles.triesAndHints}>
+                                <View style={styles.triesAndHintsRow}>
+                                    <SimpleLineIcons name="energy" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.tries}>{tries}</Text>
+                                </View>
+                                <View style={{ marginLeft: scale(3) }}>
+                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={() => setHintVisible(true)}>
+                                        <FontAwesome name="lightbulb-o" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.hints}>Get a hint</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                             {currentProblem &&
                                 <>
                                     <Text style={styles.problem}>{currentProblem.problem}</Text>
@@ -136,52 +160,12 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                 visible={tries === 0}
                 onPressMoreTries={() => addTries(3)}
             />
+            <HintModal
+                visible={hintsVisible}
+                onDissmiss={() => setHintVisible(false)}
+                hintIndex={hintIndex}
+                problemIndex={currentProblem && currentProblem.currentIndex}
+            />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    level: {
-        position: "absolute",
-        fontSize: moderateScale(20),
-        top: scale(20),
-        left: scale(10),
-        color: COLORS.textColor
-    },
-    tries: {
-        position: "absolute",
-        fontSize: moderateScale(20),
-        top: scale(20),
-        right: scale(10),
-        color: COLORS.textColor
-    },
-    problem: {
-        color: COLORS.textColor,
-        fontSize: moderateScale(36),
-        marginBottom: verticalScale(10)
-    },
-    answer: {
-        marginTop: verticalScale(10),
-        marginBottom: verticalScale(10),
-        color: COLORS.textColor,
-        fontSize: moderateScale(30),
-        letterSpacing: scale(2)
-    },
-    checkAnswer: {
-        color: COLORS.textColor,
-        fontSize: moderateScale(24),
-        textTransform: "uppercase",
-        letterSpacing: moderateScale(4),
-        marginTop: verticalScale(5),
-        borderWidth: 1,
-        borderColor: COLORS.textColor,
-        padding: scale(5),
-        borderRadius: 5
-    },
-    hr: {
-        borderBottomColor: COLORS.textColor,
-        borderBottomWidth: 1,
-        marginBottom: 10,
-        width: scale(240)
-    }
-});
