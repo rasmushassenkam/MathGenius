@@ -160,7 +160,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
             fontSize: moderateScale(17),
             marginLeft: scale(6),
             bottom: scale(2),
-            color: disableHints() ? COLORS.disabledColor : COLORS.textColor
+            color: currentProblem && disableHints() ? COLORS.disabledColor : COLORS.textColor
         }
     });
 
@@ -172,47 +172,49 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                 /> :
                     wrong ? <Wrong />
                         :
-                        currentProblem &&
-                        <>
-                            <View style={styles.triesAndHints}>
-                                <View style={styles.triesAndHintsRow}>
-                                    <SimpleLineIcons name="energy" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.tries}>{tries}</Text>
-                                </View>
-                                <View style={{ marginLeft: scale(3) }}>
-                                    <TouchableOpacity style={styles.triesAndHintsRow} onPress={getHint} disabled={disableHints() || disabled}>
-                                        <FontAwesome
-                                            name="lightbulb-o"
-                                            color={disableHints() ? COLORS.disabledColor : COLORS.textColor}
-                                            size={moderateScale(18)} />
-                                        {
-                                            disabled ?
-                                                <ActivityIndicator color={COLORS.textColor} />
-                                                :
-                                                <Text
-                                                    style={condtionalStyles.hints}>
-                                                    Get a hint
+                        currentProblem ?
+                            <>
+                                <View style={styles.triesAndHints}>
+                                    <View style={styles.triesAndHintsRow}>
+                                        <SimpleLineIcons name="energy" color={COLORS.textColor} size={moderateScale(18)} /><Text style={styles.tries}>{tries}</Text>
+                                    </View>
+                                    <View style={{ marginLeft: scale(3) }}>
+                                        <TouchableOpacity style={styles.triesAndHintsRow} onPress={getHint} disabled={disableHints() || disabled}>
+                                            <FontAwesome
+                                                name="lightbulb-o"
+                                                color={disableHints() ? COLORS.disabledColor : COLORS.textColor}
+                                                size={moderateScale(18)} />
+                                            {
+                                                disabled ?
+                                                    <ActivityIndicator color={COLORS.textColor} />
+                                                    :
+                                                    <Text
+                                                        style={condtionalStyles.hints}>
+                                                        Get a hint
                                                 </Text>
-                                        }
-                                    </TouchableOpacity>
+                                            }
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
 
-                            <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
+                                <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
 
-                            <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
-                            <Text style={styles.answer}>{currentAnswer}</Text>
+                                <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
+                                <Text style={styles.answer}>{currentAnswer}</Text>
 
-                            <View style={styles.hr} />
+                                <View style={styles.hr} />
 
-                            <NumberGrid
-                                onPressNumber={(value: string) => setAnswer(value)}
-                                onPressClear={() => setCurrentAnswer("")}
-                                onPressPlusMinus={negateAnswer}
-                            />
-                            <TouchableOpacity onPress={answerProblem}>
-                                <Text style={styles.checkAnswer}>Check Answer</Text>
-                            </TouchableOpacity>
-                        </>
+                                <NumberGrid
+                                    onPressNumber={(value: string) => setAnswer(value)}
+                                    onPressClear={() => setCurrentAnswer("")}
+                                    onPressPlusMinus={negateAnswer}
+                                />
+                                <TouchableOpacity onPress={answerProblem}>
+                                    <Text style={styles.checkAnswer}>Check Answer</Text>
+                                </TouchableOpacity>
+                            </>
+                            :
+                            <ActivityIndicator color={COLORS.textColor} size="large" />
             }
             <DevButtonFlushStorage />
             <GetMoreTriesModal
