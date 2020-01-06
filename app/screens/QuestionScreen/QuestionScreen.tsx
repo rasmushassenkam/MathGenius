@@ -78,14 +78,14 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
 
     const answerProblem = async () => {
         if (checkAnswer()) {
-            setCorrect(true);
             if (currentProblem.nextIndex === -1) {
                 await storeItem("problemIndex", 0);
                 setCurrentProblem(Problems[0]);
                 await storeItem("tries", 3);
                 setTries(3);
-                navigation.navigate("Home");
+                navigation.navigate("Winning");
             } else {
+                setCorrect(true);
                 await storeItem("problemIndex", currentProblem.nextIndex);
                 setCurrentProblem(Problems[currentProblem.nextIndex]);
             }
@@ -105,11 +105,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     }
 
     const correctTextGenerator = (): string => {
-        if (currentProblem.nextIndex === -1) {
-            return "You are a Math Genius"
-        } else {
-            return "Correct!";
-        }
+        return "Correct!";
     }
 
     const negateAnswer = (): void => {
