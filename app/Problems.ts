@@ -268,437 +268,437 @@ export const Problems: Array<Problem> = [
         hints: ["60 - (6 x 6) =", "60 - 36 =", "24 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "13 + 5 x 7 =",
+        answer: "48",
         currentIndex: 38,
         nextIndex: 39,
-        hints: []
+        hints: ["13 + (5 x 7) =", "13 + 35 =", "48 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "16 x 2 - 3 =",
+        answer: "29",
         currentIndex: 39,
         nextIndex: 40,
-        hints: []
+        hints: ["(16 x 2) - 3 =", "32 - 3 = ", "29 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "23 x 3 + 5 =",
+        answer: "74",
         currentIndex: 40,
         nextIndex: 41,
-        hints: []
+        hints: ["(23 x 3) + 5 =", "69 + 3 =", "74 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "21 x 4 + 7 =",
+        answer: "91",
         currentIndex: 41,
         nextIndex: 42,
-        hints: []
+        hints: ["(21 x 4) + 7 =", "84 + 7 =", "91 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "33 - 3 x 10 =",
+        answer: "3",
         currentIndex: 42,
         nextIndex: 43,
-        hints: []
+        hints: ["33 - (3 x 10) =", "33 - 30 =", "3 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "5 + 3 x 11 =",
+        answer: "38",
         currentIndex: 43,
         nextIndex: 44,
-        hints: []
+        hints: ["5 + (3 x 11) =", "5 + 33 ) =", "38 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "7 x 7 x 2 =",
+        answer: "98",
         currentIndex: 44,
         nextIndex: 45,
-        hints: []
+        hints: ["(7 x 7) x 2 =", "49 x 2 =", "98 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "3 - 2 x 8 + 3 =",
+        answer: "-10",
         currentIndex: 45,
         nextIndex: 46,
-        hints: []
+        hints: ["3 - (2 x 8) + 3 =", "3 - 16 + 3 =", "3 - 13 =", "-10 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "7 + 11 x 4 + 5 =",
+        answer: "56",
         currentIndex: 46,
         nextIndex: 47,
-        hints: []
+        hints: ["7 + (11 x 4) + 5 =", "7 + 44 + 5 =", "51 + 5 =", "56 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "58 - 8 x 7 =",
+        answer: "2",
         currentIndex: 47,
         nextIndex: 48,
-        hints: []
+        hints: ["58 - (8 x 7) =", "58 - 56 =", "2 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "15 / 3 =",
+        answer: "5",
         currentIndex: 48,
         nextIndex: 49,
-        hints: []
+        hints: ["5 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "25 / 5 =",
+        answer: "5",
         currentIndex: 49,
         nextIndex: 50,
-        hints: []
+        hints: ["5 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "6 + 6 / 3 =",
+        answer: "8",
         currentIndex: 50,
         nextIndex: 51,
-        hints: []
+        hints: ["6 + (6 / 3) =", "6 + 2 =", "8 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "17 - 8 / 4 =",
+        answer: "15",
         currentIndex: 51,
         nextIndex: 52,
-        hints: []
+        hints: ["17 - (8 / 4) =", "17 - 2 =", "15 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "3 x 8 / 4 =",
+        answer: "6",
         currentIndex: 52,
         nextIndex: 53,
-        hints: []
+        hints: ["(3 x 8) / 4 =", "24 / 4 =", "6 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "5 x 9 / 3 =",
+        answer: "15",
         currentIndex: 53,
         nextIndex: 54,
-        hints: []
+        hints: ["(5 x 9) / 3 =", "45 / 3 =", "15 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "11 + 9 / 3 =",
+        answer: "14",
         currentIndex: 54,
         nextIndex: 55,
-        hints: []
+        hints: ["11 + (9 / 3) =", "11 + 3 =", "14 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "22 / 2 + 15 =",
+        answer: "26",
         currentIndex: 55,
         nextIndex: 56,
-        hints: []
+        hints: ["(22 / 2) + 15 =", "11 + 15 =", "26 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "43 + 5 x 5 =",
+        answer: "68",
         currentIndex: 56,
         nextIndex: 57,
-        hints: []
+        hints: ["43 + (5 x 5) =", "43 + 25 =", "68 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "1 x 2 + 3 - 4 =",
+        answer: "1",
         currentIndex: 57,
         nextIndex: 58,
-        hints: []
+        hints: ["(1 x 2) + 3 - 4 =", "2 + 3 - 4 =", "5 - 4 =", "1 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "4 + 5 x 6 - 7 =",
+        answer: "27",
         currentIndex: 58,
         nextIndex: 59,
-        hints: []
+        hints: ["4 + (5 x 6) - 7 =", "4 + 30 - 7 =", "34 - 7 =", "27 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "2 + 2 x 2 / 2 =",
+        answer: "4",
         currentIndex: 59,
         nextIndex: 60,
-        hints: []
+        hints: ["2 + (2 x 2) / 2 =", "2 + 4 / 2 =", "2 + (4 / 2) =", "2 + 2 =", "4 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "3 x 4 x 5 - 10 =",
+        answer: "50",
         currentIndex: 60,
         nextIndex: 61,
-        hints: []
+        hints: ["(3 x 4 x 5) - 10 =", "(12 x 5) - 10 =", "60 - 10 =", "50 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "10 - 1 x 8 + 2 =",
+        answer: "4",
         currentIndex: 61,
         nextIndex: 62,
-        hints: []
+        hints: ["10 - (1 x 8) + 2 =", "10 - 8 + 2 =", "2 + 2 =", "4 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "13 x 3 + 5 - 2 =",
+        answer: "42",
         currentIndex: 62,
         nextIndex: 63,
-        hints: []
+        hints: ["(13 x 3) + 5 - 2 =", "39 + 5 - 2 =", "44 - 2 =", "42 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "7 + 7 x 4 / 2 =",
+        answer: "21",
         currentIndex: 63,
         nextIndex: 64,
-        hints: []
+        hints: ["7 + (7 x 4) / 2 =", "7 + 28 / 2 =", "7 + (28 / 2) =", "7 + 14 =", "21 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "17 - 6 x 3 + 1 =",
+        answer: "0",
         currentIndex: 64,
         nextIndex: 65,
-        hints: []
+        hints: ["17 - (6 x 3) + 1 =", "17 - 18 + 1 =", "-1 + 1 =", "0 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "2 - 8 x 4 =",
+        answer: "-30",
         currentIndex: 65,
         nextIndex: 66,
-        hints: []
+        hints: ["2 - (8 x 4) = ", "2 - 32 =", "-30 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "6 + 6 x 6 / 6 =",
+        answer: "12",
         currentIndex: 66,
         nextIndex: 67,
-        hints: []
+        hints: ["6 + (6 x 6) / 6 =", "6 + 36 / 6 =", "6 + (36 / 6) =", "6 + 6 =", "12 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "5 / 5 + 8 - 8 =",
+        answer: "1",
         currentIndex: 67,
         nextIndex: 68,
-        hints: []
+        hints: ["(5 / 5) + 8 - 8 =", "1 + 8 - 8 =", "9 - 8 =", "1"]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "23 + 7 x 3 =",
+        answer: "44",
         currentIndex: 68,
         nextIndex: 69,
-        hints: []
+        hints: ["23 + (7 x 3) =", "23 + 21 =", "44 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "44 - 28 x 2 =",
+        answer: "-12",
         currentIndex: 69,
         nextIndex: 70,
-        hints: []
+        hints: ["44 - (28 x 2) =", "44 - 56 =", "-12 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "-12 + 6 x 3",
+        answer: "6",
         currentIndex: 70,
         nextIndex: 71,
-        hints: []
+        hints: ["-12 + (6 x 3) =", "-12 + 18 =", "6 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "-1 + 2 x 3 =",
+        answer: "5",
         currentIndex: 71,
         nextIndex: 72,
-        hints: []
+        hints: ["-1 + (2 x 3) =", "-1 + 6 =", "5 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "8 x -2 + 15 =",
+        answer: "-1",
         currentIndex: 72,
         nextIndex: 73,
-        hints: []
+        hints: ["(8 x -2) + 15 =", "-16 + 15 =", "-1 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "16 x 3 - 8 + 5 =",
+        answer: "45",
         currentIndex: 73,
         nextIndex: 74,
-        hints: []
+        hints: ["(16 x 3) - 8 + 5 =", "48 - 8 + 5 =", "40 + 5 =", "45 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "5 + 5 x 2 - 8 =",
+        answer: "7",
         currentIndex: 74,
         nextIndex: 75,
-        hints: []
+        hints: ["5 + (5 x 2) - 8 =", "5 + 10 - 8 =", "15 - 8 =", "7 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "13 + 22 x 3 =",
+        answer: "79",
         currentIndex: 75,
         nextIndex: 76,
-        hints: []
+        hints: ["13 + (22 x 3) =", "13 + 66 =", "79 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "60 - 37 x 2 =",
+        answer: "-14",
         currentIndex: 76,
         nextIndex: 77,
-        hints: []
+        hints: ["60 - (37 x 2) =", "60 - 74 =", "-14 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "6 + 66 / 2 =",
+        answer: "39",
         currentIndex: 77,
         nextIndex: 78,
-        hints: []
+        hints: ["6 + (66 / 2) =", "6 + 33 =", "39 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "15 - 3 x 8 =",
+        answer: "-9 =",
         currentIndex: 78,
         nextIndex: 79,
-        hints: []
+        hints: ["15 - (3 x 8) =", "15 - 24 =", "-9 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "13 - 7 x 11 =",
+        answer: "-64",
         currentIndex: 79,
         nextIndex: 80,
-        hints: []
+        hints: ["13 - (7 x 11) =", "13 - 77 =", "-64 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "5 + 8 + 12 x 4 =",
+        answer: "61",
         currentIndex: 80,
         nextIndex: 81,
-        hints: []
+        hints: ["5 + 8 + (12 x 4) =", "5 + 8 + 48 =", "13 + 48 =", "61 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "63 - 11 - 12 =",
+        answer: "40",
         currentIndex: 81,
         nextIndex: 82,
-        hints: []
+        hints: ["52 - 12 =", "40 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "70 - 13 - 42 =",
+        answer: "15",
         currentIndex: 82,
         nextIndex: 83,
-        hints: []
+        hints: ["57 - 42 =", "15 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "77 - 6 - 38 =",
+        answer: "33",
         currentIndex: 83,
         nextIndex: 84,
-        hints: []
+        hints: ["71 - 38 =", "33 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "121 - 41 - 3 =",
+        answer: "77",
         currentIndex: 84,
         nextIndex: 85,
-        hints: []
+        hints: ["80 - 3 =", "77 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "202 - 22 - 80 =",
+        answer: "100",
         currentIndex: 85,
         nextIndex: 86,
-        hints: []
+        hints: ["180 - 80 =", "100 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "98 - 59 - 5 =",
+        answer: "34",
         currentIndex: 86,
         nextIndex: 87,
-        hints: []
+        hints: ["39 - 5 =", "34 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "54 - 35 - 18 =",
+        answer: "1",
         currentIndex: 87,
         nextIndex: 88,
-        hints: []
+        hints: ["19 - 18 =", "1 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "154 - 67 - 2 =",
+        answer: "85",
         currentIndex: 88,
         nextIndex: 89,
-        hints: []
+        hints: ["87 - 2 =", "85 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "167 - 98 - 69 =",
+        answer: "0",
         currentIndex: 89,
         nextIndex: 90,
-        hints: []
+        hints: ["69 - 69 =", "0 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "333 - 231 - 7 =",
+        answer: "95",
         currentIndex: 90,
         nextIndex: 91,
-        hints: []
+        hints: ["102 - 7 =", "95 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "45 - 48 x 3 - 2 =",
+        answer: "-101",
         currentIndex: 91,
         nextIndex: 92,
-        hints: []
+        hints: ["45 - (48 x 3) - 2 =", "45 - 144 - 2", "-99 - 2 =", "-101 ="]
     },
     {
-        problem: "",
-        answer: "",
-        currentIndex: 93,
+        problem: "152 - 63 x 3 =",
+        answer: "-37",
+        currentIndex: 92,
         nextIndex: 93,
-        hints: []
+        hints: ["152 - (63 x 3) =", "152 - 189 =", "-37 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "2 x 2 x 2 / 2 x 2 + 2 =",
+        answer: "10",
         currentIndex: 93,
         nextIndex: 94,
-        hints: []
+        hints: ["(2 x 2 x 2) / 2 x 2 + 2 =", "8 / 2 x 2 + 2 =", "(8 / 2) x 2 + 2 =", "4 x 2 + 2 =", "(4 x 2) + 2 =", "8 + 2 =", "10 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "3 x 3 x -3 + 3 x 3 =",
+        answer: "-18",
         currentIndex: 94,
         nextIndex: 95,
-        hints: []
+        hints: ["(3 x 3 x -3) + 3 x 3 =", "-27 + 3 x 3 =", "-27 + (3 x 3) =", "-27 + 9 =", "-18 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "77 x 3 - 8 + 5 =",
+        answer: "228",
         currentIndex: 95,
         nextIndex: 96,
-        hints: []
+        hints: ["(77 x 3) - 8 + 5 =", "231 - 8 + 5 =", "223 + 5 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "4 x 4 / 4 x 4 + 4 =",
+        answer: "20",
         currentIndex: 96,
         nextIndex: 97,
-        hints: []
+        hints: ["(4 x 4) / 4 x 4 + 4 =", "16 / 4 x 4 + 4 =", "(16 / 4) x 4 + 4 =", "4 x 4 + 4 =", "(4 x 4) + 4 =", "16 + 4 =", "20 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "15 x 3 + 40 x 3 =",
+        answer: "165",
         currentIndex: 97,
         nextIndex: 98,
-        hints: []
+        hints: ["(15 x 3) + 40 x 3 =", "45 + 40 x 3 =", "45 + (40 x 3) =", "45 + 120 =", "165 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "92 - 45 x 3 + 8 =",
+        answer: "-35",
         currentIndex: 98,
         nextIndex: 99,
-        hints: []
+        hints: ["92 - (45 x 3) + 8 =", "92 - 135 + 8 =", "-43 + 8 =", "-35 ="]
     },
     {
-        problem: "",
-        answer: "",
+        problem: "7 x 7 x 2 + 5 - 2 + 2 =",
+        answer: "44",
         currentIndex: 99,
         nextIndex: -1,
-        hints: []
+        hints: ["(7 x 7 x 2) + 5 - 2 + 2", "(49 x 2) + 5 - 2 + 2 =", "98 + 5 - 2 + 2 =", "103 - 2 + 2 =", "101 + 2 =", "103 ="]
     },
 ];
