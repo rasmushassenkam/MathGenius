@@ -79,8 +79,16 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const answerProblem = async () => {
         if (checkAnswer()) {
             setCorrect(true);
-            await storeItem("problemIndex", currentProblem.nextIndex);
-            setCurrentProblem(Problems[currentProblem.nextIndex]);
+            if (currentProblem.nextIndex === -1) {
+                await storeItem("problemIndex", 0);
+                setCurrentProblem(Problems[0]);
+                await storeItem("tries", 3);
+                setTries(3);
+                navigation.navigate("Home");
+            } else {
+                await storeItem("problemIndex", currentProblem.nextIndex);
+                setCurrentProblem(Problems[currentProblem.nextIndex]);
+            }
         } else {
             await storeItem("tries", tries - 1);
             setTries(tries - 1);
@@ -97,7 +105,11 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     }
 
     const correctTextGenerator = (): string => {
-        return "Correct!";
+        if (currentProblem.nextIndex === -1) {
+            return "You are a Math Genius"
+        } else {
+            return "Correct!";
+        }
     }
 
     const negateAnswer = (): void => {
