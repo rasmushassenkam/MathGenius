@@ -15,6 +15,7 @@ import { Wrong } from "./components/Wrong";
 import { scale, moderateScale, verticalScale } from "../../utils/Scaling";
 import { Constants } from "../../Constants";
 import { GetMoreTriesModal } from "./components/GetMoreTriesModal";
+import { ProblemField } from "./components/ProblemField";
 
 interface IProps {
     navigation: NavigationScreenProp<any, any>
@@ -31,7 +32,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const [currentProblem, setCurrentProblem] = useState<Problem>(Problems[index]);
     const [hintIndex, setHintIndex] = useState<number>(storedHintIndex);
     const [disabled, setDisabled] = useState<boolean>(false);
-    const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
+    const [isHintsEnabled, setIsHintsEnabled] = useState<boolean>(false);
 
     AdMobInterstitial.setAdUnitID(Platform.OS === "ios" ? Constants.IOSVIDEOADD : Constants.ANDROIDVIDEOADD);
 
@@ -43,7 +44,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         setCurrentAnswer("");
         if (correct) {
             zeroHintIndex();
-            setIsHintEnabled(false);
+            setIsHintsEnabled(false);
             setTimeout(() => {
                 setCorrect(false);
             }, 750);
@@ -79,6 +80,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const answerProblem = async () => {
         if (checkAnswer()) {
             if (currentProblem.nextIndex === -1) {
+                zeroHintIndex();
                 await storeItem("problemIndex", 0);
                 setCurrentProblem(Problems[0]);
                 await storeItem("tries", 3);
@@ -147,7 +149,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         } catch (error) {
             console.log(error);
         } finally {
-            setIsHintEnabled(true);
+            setIsHintsEnabled(true);
             setDisabled(false);
             await storeItem("hintIndex", hintIndex + 1);
             setHintIndex(hintIndex + 1);
@@ -206,8 +208,12 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                 </View>
 
                                 <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
-
-                                <Text style={styles.problem}>{isHintEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
+                                <ProblemField
+                                    currentProblem={currentProblem}
+                                    isHintsEnabled
+                                    hintIndex={hintIndex}
+                                />
+                                {/* <Text style={styles.problem}>{isHintsEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text> */}
                                 <Text style={styles.answer}>{currentAnswer}</Text>
 
                                 <View style={styles.hr} />
@@ -241,18 +247,13 @@ const styles = StyleSheet.create({
     level: {
         position: "absolute",
         fontSize: moderateScale(20),
-        top: scale(20),
+        top: verticalScale(30),
         right: scale(10),
         color: COLORS.textColor
     },
-    problem: {
-        color: COLORS.textColor,
-        fontSize: moderateScale(36),
-        marginBottom: verticalScale(10)
-    },
     answer: {
         marginTop: verticalScale(10),
-        marginBottom: verticalScale(10),
+        marginBottom: verticalScale(5),
         color: COLORS.textColor,
         fontSize: moderateScale(30),
         letterSpacing: scale(2)
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     },
     triesAndHints: {
         position: "absolute",
-        top: scale(22),
+        top: verticalScale(30),
         left: scale(10)
     },
     triesAndHintsRow: {
