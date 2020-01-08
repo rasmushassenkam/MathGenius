@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
-import { View, Text, TouchableOpacity, Platform, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Platform, StyleSheet, ActivityIndicator, Animated } from "react-native";
 import { FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/Styles";
 import { storeItem, getItem } from "../../stores/AsyncStorage";
@@ -33,15 +33,17 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
     const [hintIndex, setHintIndex] = useState<number>(storedHintIndex);
     const [disabled, setDisabled] = useState<boolean>(false);
     const [isHintsEnabled, setIsHintsEnabled] = useState<boolean>(false);
-
+    const [animated, setAnimated] = useState<boolean>(false);
     AdMobInterstitial.setAdUnitID(Platform.OS === "ios" ? Constants.IOSVIDEOADD : Constants.ANDROIDVIDEOADD);
 
     useEffect(() => {
         initialize();
+        AdMobInterstitial.addEventListener("interstitialDidClose", test);
     }, []);
 
     useEffect(() => {
         setCurrentAnswer("");
+        setAnimated(false);
         if (correct) {
             zeroHintIndex();
             setIsHintsEnabled(false);
@@ -49,16 +51,16 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                 setCorrect(false);
             }, 750);
         }
-    }, [correct]);
-
-    useEffect(() => {
-        setCurrentAnswer("");
         if (wrong) {
             setTimeout(() => {
                 setWrong(false);
             }, 10);
         }
-    }, [wrong])
+    }, [correct, wrong]);
+
+    const test = () => {
+        setAnimated(true);
+    }
 
     const initialize = async () => {
         if (index === undefined) {
@@ -143,6 +145,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
 
     const getHint = async () => {
         try {
+            setAnimated(false);
             setDisabled(true);
             await AdMobInterstitial.requestAdAsync();
             await AdMobInterstitial.showAdAsync()
@@ -210,10 +213,11 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                 <Text style={styles.level}>Lvl: {currentProblem.currentIndex + 1}</Text>
                                 <ProblemField
                                     currentProblem={currentProblem}
-                                    isHintsEnabled
+                                    isHintsEnabled={isHintsEnabled}
                                     hintIndex={hintIndex}
+                                    test={animated}
                                 />
-                                {/* <Text style={styles.problem}>{isHintsEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text> */}
+
                                 <Text style={styles.answer}>{currentAnswer}</Text>
 
                                 <View style={styles.hr} />
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
         color: COLORS.textColor
     },
     answer: {
-        marginTop: verticalScale(10),
+        marginTop: verticalScale(60),
         marginBottom: verticalScale(5),
         color: COLORS.textColor,
         fontSize: moderateScale(30),
@@ -273,6 +277,7 @@ const styles = StyleSheet.create({
         borderBottomColor: COLORS.textColor,
         borderBottomWidth: 1,
         marginBottom: 10,
+        marginTop: verticalScale(5),
         width: scale(240)
     },
     triesAndHints: {

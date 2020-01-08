@@ -5,8 +5,15 @@ export const Problems: Array<Problem> = [
         problem: "2 x 2 x 2 / 2 x 2 + 2 =",
         answer: "10",
         currentIndex: 0,
-        nextIndex: -1,
+        nextIndex: 1,
         hints: ["(2 x 2 x 2) / 2 x 2 + 2 =", "8 / 2 x 2 + 2 =", "(8 / 2) x 2 + 2 =", "4 x 2 + 2 =", "(4 x 2) + 2 =", "8 + 2 =", "10 ="]
+    },
+    {
+        problem: "1 + 2=",
+        answer: "3",
+        currentIndex: 1,
+        nextIndex: -1,
+        hints: ["hint1, hint2, hint3, hint4"]
     }
     // {
     //     problem: "3 + 5 =",
