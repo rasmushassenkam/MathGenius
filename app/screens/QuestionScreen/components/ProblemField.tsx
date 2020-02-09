@@ -8,30 +8,23 @@ interface IProps {
     currentProblem: Problem;
     isHintsEnabled: boolean;
     hintIndex: number;
-    test: boolean;
+    animated: boolean;
 }
 
-export const ProblemField: React.FC<IProps> = ({ currentProblem, isHintsEnabled, hintIndex, test }) => {
-    let position: Animated.ValueXY = new Animated.ValueXY({ x: scale(0), y: verticalScale(50) });
+export const ProblemField: React.FC<IProps> = ({ currentProblem, isHintsEnabled, hintIndex, animated }) => {
 
-    useEffect(() => {
-        if (test) {
-            Animated.spring(position, {
-                toValue: { x: 200, y: 500 }
-            }).start();
+    const styles = StyleSheet.create({
+        problem: {
+            marginTop: verticalScale(30),
+            color: COLORS.textColor,
+            fontSize: moderateScale(32)
         }
-    }, [test]);
-    return (
-        <Animated.Text style={position.getLayout()}>
-            <Text style={styles.problem}>{currentProblem.problem}</Text>
-            {/* <Text style={styles.problem}>{isHintsEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text> */}
-        </Animated.Text>
+    });
+
+
+    return (<>
+        <Text style={styles.problem}>{isHintsEnabled ? currentProblem.hints[hintIndex] : currentProblem.problem}</Text>
+    </>
     )
 }
 
-const styles = StyleSheet.create({
-    problem: {
-        color: COLORS.textColor,
-        fontSize: moderateScale(36)
-    },
-});

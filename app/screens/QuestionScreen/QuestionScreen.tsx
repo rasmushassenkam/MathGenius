@@ -38,7 +38,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
 
     useEffect(() => {
         initialize();
-        AdMobInterstitial.addEventListener("interstitialDidClose", test);
+        AdMobInterstitial.addEventListener("interstitialDidClose", onInterstitialClose);
     }, []);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
         }
     }, [correct, wrong]);
 
-    const test = () => {
+    const onInterstitialClose = () => {
         setAnimated(true);
     }
 
@@ -215,7 +215,7 @@ export const QuestionScreen: React.FC<IProps> = ({ navigation }) => {
                                     currentProblem={currentProblem}
                                     isHintsEnabled={isHintsEnabled}
                                     hintIndex={hintIndex}
-                                    test={animated}
+                                    animated={animated}
                                 />
 
                                 <Text style={styles.answer}>{currentAnswer}</Text>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
         color: COLORS.textColor
     },
     answer: {
-        marginTop: verticalScale(60),
+        marginTop: verticalScale(30),
         marginBottom: verticalScale(5),
         color: COLORS.textColor,
         fontSize: moderateScale(30),
